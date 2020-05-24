@@ -5,7 +5,9 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "electron-builder build --win --publish never",
+    "deploy": "electron-builder build --win --publish always"
   },
   "author": "",
   "license": "ISC",
@@ -15,5 +17,9 @@
   },
   "dependencies": {
     "electron-updater": "^4.3.1"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/ThibaudPerrin/electron-auto-update-app.git"
   }
 }
