@@ -12,6 +12,7 @@ function createWindow () {
         },
     });
     mainWindow.loadFile('index.html');
+
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
@@ -51,4 +52,8 @@ autoUpdater.on('update-downloaded', () => {
 
 ipcMain.on('restart_app', () => {
     autoUpdater.quitAndInstall();
+});
+
+ipcMain.on('open_dev', () => {
+    mainWindow.openDevTools();
 });
