@@ -21,14 +21,17 @@
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         }
         .hidden {
-            display: none;
+            /*display: none;*/
         }
     </style>
 </head>
 <body>
 <h1>Electron Auto Update Example</h1>
 <p id="version"></p>
-<div id="notification" class="hidden">
+
+<button disabled id="rdy-button" type="button" onClick="ipcRenderer.send('quitAndInstall')">Update Ready</button>
+
+<!--<div id="notification" class="hidden">
     <p id="message"></p>
     <button id="close-button" onClick="closeNotification()">
         Close
@@ -36,7 +39,7 @@
     <button id="restart-button" onClick="restartApp()" class="hidden">
         Restart
     </button>
-</div>
+</div>-->
 <script>
     const { ipcRenderer } = require('electron');
     const version = document.getElementById('version');
@@ -52,7 +55,7 @@
     });
 
 
-    ipcRenderer.on('update_available', () => {
+    /*ipcRenderer.on('update_available', () => {
         ipcRenderer.removeAllListeners('update_available');
         message.innerText = 'A new update is available. Downloading now...';
         notification.classList.remove('hidden');
@@ -70,7 +73,25 @@
     }
     function restartApp() {
         ipcRenderer.send('restart_app');
-    }
+    }*/
+
+    ipcRenderer.on('update-downloaded', function(event, text) {
+        console.log('update-downloaded');
+        var container = document.getElementById('rdy-button');
+        container.removeAttribute('disabled');
+    })
+    ipcRenderer.on('update-available', function(event, text) {
+        console.log('update-available')
+    })
+    ipcRenderer.on('error', function(event, text) {
+        console.log('error', text)
+    })
+    ipcRenderer.on('prog-made', function(event, text) {
+        console.log('prog-made')
+    })
+    ipcRenderer.on('update-not-available', function(event, text) {
+        console.log('update-not-available')
+    })
 
     document.addEventListener("keydown", function (e) {
         if (e.keyCode === 123) { // F12
